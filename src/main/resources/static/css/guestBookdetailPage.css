@@ -1,0 +1,47 @@
+#guestBookContainer{
+    width: 800px;
+    height: 200px;
+}
+
+.blog-left{
+    display: inline-block;
+    width: 80%;
+    height: 100%;
+    float: left;
+}
+
+.blog-profile{
+    height: 20%;
+}
+
+.blog-profile_image{
+    float: left;
+    width: 7%;
+    border-radius: 100%;
+}
+
+.blog-profile_text{
+    float: left;
+    font-size: 15px;
+    margin-left: 10px;
+    line-height: 0%;
+}
+
+
+.blog-title{
+    margin-left: 15px;
+}
+
+.blog-content{
+    margin-left: 15px;
+}
+
+.blog-share{
+    margin-left: 15px;
+}
+
+.blog-right{
+    width: 18%;
+    float: left;
+    margin-left: 5px;
+}

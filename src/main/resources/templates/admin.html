@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layouts/defaultLayout}"
+      layout:fragment="Content">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 페이지</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/guestBookPage.css">
+</head>
+<body>
+<!--사이드바 -->
+<aside class="side-bar">
+    <section class="side-bar__icon-box">
+        <section class="side-bar__icon-1">
+            <div></div>
+            <div></div>
+            <div></div>
+        </section>
+    </section>
+    <ul>
+        <li>
+            <a href="#"><i class="fa-solid fa-cat"></i> 관리메뉴</a>
+            <ul>
+                <li><a href="/admin/page">회원관리</a></li>
+                <li><a href="/admin/changePp">대표 포트폴리오 설정</a></li>
+            </ul>
+        </li>
+    </ul>
+</aside>
+<!--사이드바 끝 -->
+<section class="notice">
+    <div class="page-title">
+        <div class="container">
+            <h3>회원 관리</h3>
+        </div>
+    </div>
+
+    <!-- board seach area -->
+    <form th:action="@{/admin/page}" method="get">
+        <div id="board-search">
+            <div class="container">
+                <div class="search-window">
+                    <form action="">
+                        <div class="search-wrap">
+                            <label for="username" class="blind">회원 이름 검색</label>
+                            <input id="username" name="username" type="search" placeholder="검색어를 입력해주세요." value="">
+                            <button type="submit" class="btn btn-dark">검색</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- board list area -->
+
+    <div id="board-list" >
+        <div class="container">
+            <table class="board-table">
+                <thead>
+                <tr>
+                    <th scope="col" class="th-img" >사진</th>
+                    <th scope="col" class="th-num" >이메일</th>
+                    <th scope="col" class="th-title">이름</th>
+                    <th scope="col" class="th-date" >권한</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--게시물 목록 생성-->
+                <tr th:each="user : ${Users}">
+                    <td><img th:src="${user.getProfileImgUrl()}" width="100px" height="100px"></td>
+                    <td th:text="${user.email}" th:field="*{email}">1</td>
+                    <!--
+                    <td><a th:href="@{/guestBook(id=${guestBook.id})}" th:text="*{user.getUsername()}">환영합니다. 자유롭게 글을 작성해주세요</a></td>
+                   -->
+                    <td th:text="*{user.getRealUserName()}"></td>
+                    <form th:action="@{/admin/updateRole(userId=${user.getEmail()})}" method="post">
+                    <td><button type="submit" class="btn btn btn-dark" th:if="${user.getRole() == T(com.myblog.myblog.Enum.Role).USER }" th:text="*{'('+user.getRole()+')권한 승인'}" ></button></td>
+                    </form>
+                </tr>
+                </tbody>
+            </table>
+            <!--페이징 처리 부분 -->
+            <div class="d-flex justify-content-center" th:if="${startPage != null && endPage != null && nowPage != null}" >
+                <li class="btn btn btn-primary" th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                    <a class="page-link" th:if="${page != nowPage}" th:href="@{/admin/page(page = ${page - 1},title=${param.title})}" th:text="${page}"></a>
+                    <strong  th:if="${page == nowPage}" th:text="${page}" style="color: red "></strong>
+                </li>
+
+            </div>
+            <!--등록 버튼 -->
+            <form action="/newcontent" method="post">
+                <button class="btn btn btn-primary" style="margin-top: 50px;" type="submit" >등록 버튼</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+<!--권한 설정 부분 -->
+<!--
+<script>
+
+    const updateButton =document.getElementById('update-button');
+
+    if(updateButton){
+        updateButton.addEventListener('click',event => {
+
+
+            var id = document.getElementById("userId").value
+
+            fetch('/admin/updateRole/'+id,{
+                method: 'POST'
+            })
+                .then(()=>{
+                    alert('승인되었습니다.');
+                    location.replace("/admin/page");
+                });
+
+        });
+    }
+
+</script>
+
+-->
+</body>
+</html>

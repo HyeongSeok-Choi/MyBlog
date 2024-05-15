@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layouts/defaultLayout}"
+      layout:fragment="Content" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <p th:text="${kakaoCallback}">
+
+
+    </p>
+    <p th:text="${kakaoToken}">
+
+
+    </p>
+
+    <p th:text="${accessToken}+'들어왔다 '">
+
+    </p>
+
+</body>
+</html>
